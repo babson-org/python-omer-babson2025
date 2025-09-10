@@ -1,10 +1,9 @@
-# -------------------------
-# Python
-# -------------------------
-#__pycache__/
-#*.pyo
-#*.pyd
-#*.so
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
 
 # Virtual environments
 venv/
@@ -14,24 +13,16 @@ venv/
 # Jupyter notebooks
 .ipynb_checkpoints/
 
-# -------------------------
 # VS Code
-# -------------------------
-
 .history/
 
-# -------------------------
 # GitHub Codespaces
-# -------------------------
 *.codespace
 *.code-workspace
 
-
-# -------------------------
 # OS-generated files
-# -------------------------
 .DS_Store
 Thumbs.db
 
+# PDFs are allowed
 !*.pdf
-!*.pyc
