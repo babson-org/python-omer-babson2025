@@ -69,6 +69,9 @@ import platform
 print("Python version:", sys.version)
 print("Platform:", platform.system(), platform.release())
 
+#pprint.pprint(dir(sys))
+print(type(sys.version))
+print(sys.version, sys.platform)
 
 pause=input('pause')
 clear_screen()
@@ -132,7 +135,10 @@ print(10 + 2 * 5 / 2 - 3 ** 2)   # 6.0
 # With parentheses
 print(((10 + 2) * 5) / 2 - (3 ** 2))   # 21.0
 
+print(x)
 
+x = 2**3**2
+print(x)
 pause=input('pause')
 clear_screen()
 '''
