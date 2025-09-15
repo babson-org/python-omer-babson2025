@@ -22,7 +22,7 @@ def main():
 
 """
 Lab 1 - Python Basics
-Author: <Your Name>
+Author: <Omer San>
 Instructions: Complete each part below. Save your work and commit + sync in Codespaces.
 """
 
@@ -38,11 +38,24 @@ def draw_diamond():
     print("you have some work todo!, draw_diamond")
 
     # TODO: Prompt user for an odd number
-    height = int(input("Enter an odd number for the diamond height: "))
-
+while True:
+    try:
+        height = int(input("Enter an odd number for the diamond height: "))
+        if height % 2 == 1:   
+            break
+        else:
+            print("Enter an odd number")
+    except ValueError:
+        print("Make sure to enter an odd number")
     # TODO: Draw the top half of the diamond
+for i in range(1, height + 1, 2):
+        spaces = (height - i) // 2
+        print(" " * spaces + "*" * i)
 
     # TODO: Draw the bottom half of the diamond
+for i in range(height - 2, 0, -2):
+        spaces = (height - i) // 2
+        print(" " * spaces + "*" * i)
 
 # Uncomment to test Part 1
 # draw_diamond()
@@ -63,19 +76,35 @@ def text_analysis():
     print("you have some work todo!, text_analysis")
 
     # TODO: Get user input
-    text = input("Enter some text: ")
 
+while True:
+        text = input("Enter some text: ")
+        has_letter = False
+        for letter in text:
+            if letter.isalpha():
+                has_letter = True
+                break
+        if has_letter:
+            break
+        else:
+            print("Enter letters, not numbers")
     # TODO: Count letters
-    letters = 0
-
+letters = 0
+for letter in text:
+        if letter.isalpha():
+            letters += 1
     # TODO: Count words
+words = len(text.split())
 
     # TODO: Count sentences
-
+sentences = 0
+for letter in text:
+        if letter in ".!?":
+            sentences += 1
     # TODO: Print the results
-    print(f"Letters: {letters}")
-    print(f"Words: {0}")        # replace 0
-    print(f"Sentences: {0}")    # replace 0
+print(f"Letters: {letters}")
+print(f"Words: {words}")        
+print(f"Sentences: {sentences}")    
 
 # Uncomment to test Part 2
 # text_analysis()
