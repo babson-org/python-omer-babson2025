@@ -29,6 +29,11 @@ Instructions: Complete each part below. Save your work and commit + sync in Code
 # ==============================
 # Part 1: Draw a Diamond
 # ==============================
+# The program asks the user for a number, but it has to be odd and positive. 
+# If the user types something wrong, it gently asks again until the input is valid.
+# Once we have the height, the code first builds the top half of the diamond, starting with 1 star in the middle, then 3, then 5, and so on, always centering them with spaces.
+# After reaching the widest row (the middle of the diamond), the code switches to the bottom half, shrinking the rows back down: 3 stars, then 1 star.
+# The little formula (height - i) // 2 just figures out how many spaces to put on the left so the stars line up in the center.
 def draw_diamond():
     """
     Ask the user for an odd number for the diamond height
@@ -67,6 +72,12 @@ for i in range(height - 2, 0, -2):
 # ==============================
 # Part 2: Count Letters, Words, and Sentences
 # ==============================
+#The program asks the user to type in some text. 
+# If the user only types numbers or symbols, it keeps asking until there’s at least one real letter.
+# Once it has the text, it goes through each character and counts only the letters (ignoring numbers, spaces, and punctuation).
+# To get the word count, it uses Python’s split() function, which separates the text at spaces and counts how many pieces there are.
+# To find the sentence count, it checks for punctuation marks that usually end sentences (., ?, !) and adds them up.
+# Finally, it neatly prints out all three numbers: how many letters, how many words, and how many sentences were found in the input.
 def text_analysis():
     """
     Ask the user for a block of text.
@@ -106,7 +117,8 @@ sentences = 0
 for letter in text:
         if letter in ".!?":
             sentences += 1
-#display results    
+
+# display results    
     # TODO: Print the results
 print(f"Letters: {letters}")
 print(f"Words: {words}")        
@@ -119,6 +131,14 @@ print(f"Sentences: {sentences}")
 # ==============================
 # Part 3: Caesar Cipher – Encrypt and Decrypt
 # ==============================
+# The program first asks the user to type in some text. It makes sure the text contains at least one real letter (so you can’t just enter numbers or symbols).
+# Next, it asks the user for a shift value — this is the number of positions each letter will be moved in the alphabet. 
+# Then, the program asks whether you want to encrypt (hide the message) or decrypt (bring it back to normal). If decrypt is chosen, the shift is flipped to work backwards.
+# The code goes through the text one character at a time:
+# If the character is a letter, it shifts it forward or backward in the alphabet.
+# Uppercase and lowercase letters are handled separately so the case is preserved.
+# Non-letters (spaces, punctuation, numbers) are left exactly the same.
+# Finally, it prints both the original message and the resulting transformed text so you can compare them.
 def caesar_cipher():
     """
     Ask the user for text and a shift value.
