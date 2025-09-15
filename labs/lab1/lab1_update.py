@@ -36,22 +36,25 @@ def draw_diamond():
     """
     
     print("you have some work todo!, draw_diamond")
-
+# keep prompting until user enters a valid odd integer
     # TODO: Prompt user for an odd number
 while True:
     try:
         height = int(input("Enter an odd number for the diamond height: "))
-        if height % 2 == 1:   
+        if height > 0 and height % 2 == 1:   
             break
         else:
             print("Enter an odd number")
     except ValueError:
         print("Make sure to enter an odd number")
+
+# print top half of diamond (including middle row)
     # TODO: Draw the top half of the diamond
 for i in range(1, height + 1, 2):
         spaces = (height - i) // 2
         print(" " * spaces + "*" * i)
 
+# print bottom half of diamond
     # TODO: Draw the bottom half of the diamond
 for i in range(height - 2, 0, -2):
         spaces = (height - i) // 2
@@ -75,32 +78,35 @@ def text_analysis():
 
     print("you have some work todo!, text_analysis")
 
+# loop until user enters text that includes at least one letter    
     # TODO: Get user input
 
 while True:
         text = input("Enter some text: ")
-        has_letter = False
-        for letter in text:
-            if letter.isalpha():
-                has_letter = True
-                break
+        has_letter = any(ch.isalpha() for ch in text)
         if has_letter:
             break
         else:
-            print("Enter letters, not numbers")
+            print("Enter letters, not just numbers/punctuation.")
+
+# count alphabetic characters only    
     # TODO: Count letters
 letters = 0
 for letter in text:
         if letter.isalpha():
             letters += 1
+
+# split text on spaces to count words    
     # TODO: Count words
 words = len(text.split())
 
+# count punctuation marks that end sentences    
     # TODO: Count sentences
 sentences = 0
 for letter in text:
         if letter in ".!?":
             sentences += 1
+#display results    
     # TODO: Print the results
 print(f"Letters: {letters}")
 print(f"Words: {words}")        
@@ -121,26 +127,57 @@ def caesar_cipher():
 
     print("you have some work todo!, caesar_cypher")
 
+# loop until user enters text with at least one letter    
     # TODO: Get user input text
-    text = input("Enter text: ")
+while True:
+        text = input("Enter some text: ")
+        if any(ch.isalpha() for ch in text):
+            break
+        else:
+            print("Enter text with letters:")
 
+# validate numeric shift input
     # TODO: Get shift value
-    shift = int(input("Enter shift value (integer): "))
-
+while True:
+        try:
+            shift = int(input("Please enter an integer shift: "))
+            break
+        except ValueError:
+            print("Enter a number!")
+    
+# validate choice (encrypt or decrypt)
     # TODO: Ask user whether to encrypt or decrypt
-    choice = input("Type 'e' to encrypt or 'd' to decrypt: ").lower()
-
+while True:
+        choice = input("Type 'e' to encrypt or 'd' to decrypt: ").lower()
+        if choice in ("e", "d"):
+            break
+        else:
+            print("Follow directions, enter 'e' or 'd'!")
+# if decrypt, invert the shift
+if choice == "d":
+        shift = -shift   
+    
+# build the result string character by character   
     # TODO: Implement encryption and decryption logic
-    result = ""
+result = ""
+for letter in text:
+        if letter.isalpha():
+            if letter.isupper():
+                base = ord("A")
+                result += chr((ord(letter) - base + shift) % 26 + base)
+            else:
+                base = ord("a")
+                result += chr((ord(letter) - base + shift) % 26 + base)
+        else:
+            result += letter
 
+# show original and transformed text    
     # TODO: Print the final result
-    print("Result:", result)
+print("Original:", text)
+print("Result:  ", result)
 
 # Uncomment to test Part 3
-# caesar_cipher()
-
-
-
+caesar_cipher()
 
 if __name__ == "__main__":
     main()
