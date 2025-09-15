@@ -29,11 +29,12 @@ Instructions: Complete each part below. Save your work and commit + sync in Code
 # ==============================
 # Part 1: Draw a Diamond
 # ==============================
-# The program asks the user for a number, but it has to be odd and positive. 
-# If the user types something wrong, it gently asks again until the input is valid.
-# Once we have the height, the code first builds the top half of the diamond, starting with 1 star in the middle, then 3, then 5, and so on, always centering them with spaces.
-# After reaching the widest row (the middle of the diamond), the code switches to the bottom half, shrinking the rows back down: 3 stars, then 1 star.
-# The little formula (height - i) // 2 just figures out how many spaces to put on the left so the stars line up in the center.
+# Ask the user for an odd positive number → this will be the diamond’s height.
+# Keep asking until the input is valid (loop with error handling).
+# Print the top half of the diamond: start with 1 star, then 3, 5… up to the middle row.
+# Print the bottom half: go back down with 3 stars, then 1 star.
+# Use spaces on the left to center the stars so the shape looks like a diamond.
+
 def draw_diamond():
     """
     Ask the user for an odd number for the diamond height
@@ -72,12 +73,12 @@ for i in range(height - 2, 0, -2):
 # ==============================
 # Part 2: Count Letters, Words, and Sentences
 # ==============================
-#The program asks the user to type in some text. 
-# If the user only types numbers or symbols, it keeps asking until there’s at least one real letter.
-# Once it has the text, it goes through each character and counts only the letters (ignoring numbers, spaces, and punctuation).
-# To get the word count, it uses Python’s split() function, which separates the text at spaces and counts how many pieces there are.
-# To find the sentence count, it checks for punctuation marks that usually end sentences (., ?, !) and adds them up.
-# Finally, it neatly prints out all three numbers: how many letters, how many words, and how many sentences were found in the input.
+# Ask the user to enter some text (must include at least one letter).
+# Count letters → go through each character, only add to count if it’s A–Z or a–z.
+# Count words → use split() to break text by spaces and measure length.
+# Count sentences → look for punctuation marks ., ?, or !.
+# Print the totals: letters, words, and sentences.
+
 def text_analysis():
     """
     Ask the user for a block of text.
@@ -131,14 +132,15 @@ print(f"Sentences: {sentences}")
 # ==============================
 # Part 3: Caesar Cipher – Encrypt and Decrypt
 # ==============================
-# The program first asks the user to type in some text. It makes sure the text contains at least one real letter (so you can’t just enter numbers or symbols).
-# Next, it asks the user for a shift value — this is the number of positions each letter will be moved in the alphabet. 
-# Then, the program asks whether you want to encrypt (hide the message) or decrypt (bring it back to normal). If decrypt is chosen, the shift is flipped to work backwards.
-# The code goes through the text one character at a time:
-# If the character is a letter, it shifts it forward or backward in the alphabet.
-# Uppercase and lowercase letters are handled separately so the case is preserved.
-# Non-letters (spaces, punctuation, numbers) are left exactly the same.
-# Finally, it prints both the original message and the resulting transformed text so you can compare them.
+# Ask the user to type in some text (must include at least one letter).
+# Ask the user for a shift number (integer).
+# Ask if they want to encrypt (shift forward) or decrypt (shift backward).
+# Go through each character in the text:
+# If it’s a letter → shift it in the alphabet (wrap around if needed).
+# Keep uppercase and lowercase letters as they are.
+# Leave numbers, spaces, and punctuation unchanged.
+# Print the original text and the new result (encrypted or decrypted).
+
 def caesar_cipher():
     """
     Ask the user for text and a shift value.
