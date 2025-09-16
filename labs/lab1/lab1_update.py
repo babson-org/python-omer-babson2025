@@ -42,30 +42,30 @@ def draw_diamond():
     """
     
     print("you have some work todo!, draw_diamond")
-# keep prompting until user enters a valid odd integer
     # TODO: Prompt user for an odd number
 while True:
-    try:
-        height = int(input("Enter an odd number for the diamond height: "))
-        if height > 0 and height % 2 == 1:   
-            break
-        else:
-            print("Enter an odd number")
-    except ValueError:
-        print("Make sure to enter an odd number")
-
-# print top half of diamond (including middle row)
-    # TODO: Draw the top half of the diamond
-for i in range(1, height + 1, 2):
-        spaces = (height - i) // 2
-        print(" " * spaces + "*" * i)
-
-# print bottom half of diamond
+        try:
+            height = int(input("Please enter an odd number for the diamond height: "))
+            if height % 2 == 1:   # check odd
+                break
+            else:
+                print("Enter an odd number!")
+        except ValueError:
+            print("Enter a number that is odd!")
+# TODO: Draw the top half of the diamond
+for i in range(1, height + 1, 2): 
+        spaces = (height - i) // 2     
+        if i == 1:                     
+            print(" " * spaces + "*")
+        else:                          
+            print(" " * spaces + "*" + " " * (i - 2) + "*")
     # TODO: Draw the bottom half of the diamond
 for i in range(height - 2, 0, -2):
         spaces = (height - i) // 2
-        print(" " * spaces + "*" * i)
-
+        if i == 1:                     
+            print(" " * spaces + "*")
+        else:                          
+            print(" " * spaces + "*" + " " * (i - 2) + "*")
 # Uncomment to test Part 1
 # draw_diamond()
 
@@ -89,31 +89,26 @@ def text_analysis():
     """
 
     print("you have some work todo!, text_analysis")
-
-# loop until user enters text that includes at least one letter    
-    # TODO: Get user input
-
+  # TODO: Get user input
 while True:
         text = input("Enter some text: ")
-        has_letter = any(ch.isalpha() for ch in text)
+        has_letter = False
+        for letter in text:
+            if letter.isalpha():
+                has_letter = True
+                break
         if has_letter:
             break
         else:
-            print("Enter letters, not just numbers/punctuation.")
-
-# count alphabetic characters only    
+            print("Type only enter letters not numbers")   
     # TODO: Count letters
 letters = 0
 for letter in text:
         if letter.isalpha():
-            letters += 1
-
-# split text on spaces to count words    
+            letters += 1   
     # TODO: Count words
 words = len(text.split())
-
-# count punctuation marks that end sentences    
-    # TODO: Count sentences
+     # TODO: Count sentences
 sentences = 0
 for letter in text:
         if letter in ".!?":
@@ -122,8 +117,8 @@ for letter in text:
 # display results    
     # TODO: Print the results
 print(f"Letters: {letters}")
-print(f"Words: {words}")        
-print(f"Sentences: {sentences}")    
+print(f"Words: {words}")        # replace 0
+print(f"Sentences: {sentences}")    # replace 0   
 
 # Uncomment to test Part 2
 # text_analysis()
@@ -153,33 +148,31 @@ def caesar_cipher():
     # TODO: Get user input text
 while True:
         text = input("Enter some text: ")
-        if any(ch.isalpha() for ch in text):
+        has_letter = False
+        for letter in text:
+            if letter.isalpha():
+                has_letter = True
+                break
+        if has_letter:
             break
         else:
-            print("Enter text with letters:")
-
-# validate numeric shift input
+            print("Follow directions, enter text:")
     # TODO: Get shift value
 while True:
         try:
-            shift = int(input("Please enter an integer shift: "))
+            shift = int(input("Please enter an integer shift, an integer shift is you shift each letter forward by the number specified by the shift integer: "))
             break
         except ValueError:
-            print("Enter a number!")
-    
-# validate choice (encrypt or decrypt)
+            print("Follow directions and enter a number!")
     # TODO: Ask user whether to encrypt or decrypt
 while True:
-        choice = input("Type 'e' to encrypt or 'd' to decrypt: ").lower()
+        choice = input("Type 'e' to encrypt or 'd' to decrypt, to encrypt a message, you shift each letter forward by the number specified by the shift integer, and decrypt is the backward shift : ").lower()
         if choice in ("e", "d"):
             break
         else:
-            print("Follow directions, enter 'e' or 'd'!")
-# if decrypt, invert the shift
-if choice == "d":
-        shift = -shift   
-    
-# build the result string character by character   
+            print("Follow directions please, enter 'e' or 'd'!")
+if choice == "d": 
+        shift = -shift      
     # TODO: Implement encryption and decryption logic
 result = ""
 for letter in text:
@@ -191,9 +184,7 @@ for letter in text:
                 base = ord("a")
                 result += chr((ord(letter) - base + shift) % 26 + base)
         else:
-            result += letter
-
-# show original and transformed text    
+            result += letter  
     # TODO: Print the final result
 print("Original:", text)
 print("Result:  ", result)
