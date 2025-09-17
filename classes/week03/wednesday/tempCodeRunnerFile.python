@@ -1,0 +1,38 @@
+def draw_custom_diamond():
+    """
+    Ask the user for an odd number for the diamond height
+    and a single character to draw with, then print a symmetric
+    solid diamond of that height using the chosen character.
+    """
+
+    # TODO: Prompt user for an odd number (> 0)
+    while True:
+        try:
+            height = int(input("Please enter an odd number for the diamond height: "))
+            if height > 0 and height % 2 == 1:
+                break
+            else:
+                print("Enter an odd number greater than 0!")
+        except ValueError:
+            print("Enter a number that is odd!")
+
+    # TODO: Ask for a single drawing character
+    ch = input("Enter a single character to use for drawing: ")
+    if ch == "":
+        ch = "*"
+    else:
+        ch = ch[0]  # use only the first character
+
+    # TODO: Draw the top half (including middle row)
+    for i in range(1, height + 1, 2):
+        spaces = (height - i) // 2
+        print(" " * spaces + ch * i)
+
+    # TODO: Draw the bottom half
+    for i in range(height - 2, 0, -2):
+        spaces = (height - i) // 2
+        print(" " * spaces + ch * i)
+
+
+# Uncomment to test Exercise 23
+# draw_custom_diamond()

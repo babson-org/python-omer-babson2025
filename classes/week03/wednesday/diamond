@@ -1,0 +1,140 @@
+def draw_diamond():
+    """
+    Ask the user for an odd number for the diamond height
+    and print a symmetric filled diamond of that height using '-'.
+    """
+    
+while True:
+        try:
+            height = int(input("Please enter an odd number for the diamond height: "))
+            if height % 2 == 1:   # check odd
+                break
+            else:
+                print("Enter an odd number!")
+        except ValueError:
+            print("Enter a number that is odd!")
+
+    # Top half
+for i in range(1, height + 1, 2): 
+        spaces = (height - i) // 2     
+        print(" " * spaces + "-" * i)   # CHANGED LINE (was hollow)
+
+    # Bottom half
+for i in range(height - 2, 0, -2):
+        spaces = (height - i) // 2
+        print(" " * spaces + "-" * i)   # CHANGED LINE (was hollow)
+""""""
+------------------------------------------
+""""""
+
+def draw_diamond():
+    """
+    Ask the user for an odd number for the diamond height
+    and print a symmetric diamond of that height.
+    """
+    
+    print("you have some work todo!, draw_diamond")
+# keep prompting until user enters a valid odd integer
+    # TODO: Prompt user for an odd number
+while True:
+    try:
+        height = int(input("Enter an odd number for the diamond height: "))
+        if height > 0 and height % 2 == 1:   
+            break
+        else:
+            print("Enter an odd number")
+    except ValueError:
+        print("Make sure to enter an odd number")
+
+# print top half of diamond (including middle row)
+    # TODO: Draw the top half of the diamond
+for i in range(1, height + 1, 2):
+        spaces = (height - i) // 2
+        print(" " * spaces + "*" * i)
+
+# print bottom half of diamond
+    # TODO: Draw the bottom half of the diamond
+for i in range(height - 2, 0, -2):
+        spaces = (height - i) // 2
+        print(" " * spaces + "*" * i)
+
+''''''
+-----------------------------------------------------
+''''''
+def caesar_decode_check(message):
+    """
+    Brute-force Caesar cipher to see if any decoding
+    contains the word 'python'.
+    """
+
+    message = message.lower()
+    target = "python"
+
+    for shift in range(26):  
+        decoded = ""
+        for ch in message:
+            if ch.isalpha():
+                base = ord('a')
+                decoded += chr((ord(ch) - base - shift) % 26 + base)
+            else:
+                decoded += ch
+        if target in decoded:   
+            print(f"Found with shift {shift}: {decoded}")
+            return decoded
+
+    print("No decoded message contains the word 'python'.")
+    return None
+
+
+# Example usage:
+encrypted = "wduklq sbwkrq lv ixq"   
+caesar_decode_check(encrypted)
+
+''''''
+--------------------------------------------------------------------------------------
+''''''
+def caesar_decode(message, shift):
+    """
+    Decode a Caesar cipher message using the given shift.
+    Then check if 'python' is in the decoded text.
+    """
+    decoded = ""
+
+    for ch in message:
+        if ch.isalpha():
+            if ch.isupper():
+                base = ord("A")
+                decoded += chr((ord(ch) - base - shift) % 26 + base)
+            else:
+                base = ord("a")
+                decoded += chr((ord(ch) - base - shift) % 26 + base)
+        else:
+            decoded += ch
+
+    print("Decoded message:", decoded)
+
+    # check for word 'python' (case-insensitive)
+    if "python" in decoded.lower():
+        print("Yes ✅ — the word 'python' is in the decoded message.")
+    else:
+        print("No ❌ — the word 'python' was not found.")
+
+
+# Example usage:
+encrypted = "wdunlqj sbwkrq lv ixq"   # "training python is fun" with shift=3
+shift = 3
+caesar_decode(encrypted, shift)
+
+'''
+--------------------------------------------------------------------------------
+'''
+x = 5
+print(id(x))
+def myFunc(num):
+    print(id(num))
+    z += 1
+    print(id(z))
+    return z
+
+y = myFunc(x)
+print(id(y))
