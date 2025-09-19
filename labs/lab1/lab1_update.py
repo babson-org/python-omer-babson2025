@@ -90,6 +90,10 @@ def text_analysis():
 
     print("you have some work todo!, text_analysis")
   # TODO: Get user input
+
+
+'''
+##############let's examine theis block##########################################  
 while True:
         text = input("Enter some text: ")
         has_letter = False
@@ -102,6 +106,36 @@ while True:
         else:
             print("Type only enter letters not numbers")   
     # TODO: Count letters
+#############################################################
+    
+none of this really makes sense:
+
+has_letter = False
+        for letter in text:
+            if letter.isalpha():
+                has_letter = True
+                break
+        if has_letter:
+            break
+        else:
+            print("Type only enter letters not numbers")   
+
+
+1) the user enters some text. You then check if the first character in text
+   is alpha, if it is you break oput of the while loop.  None of that is needed
+
+all you need is:
+
+text = input("Enter some text: ")
+
+
+
+'''
+text = input("Enter some text: ")
+
+
+'''
+###############let's examine this block####################################
 letters = 0
 for letter in text:
         if letter.isalpha():
@@ -113,6 +147,29 @@ sentences = 0
 for letter in text:
         if letter in ".!?":
             sentences += 1
+#######################################################################
+1) we canh do this in 1 loop
+
+words = len(text.split())
+sentences = 0
+letters = 0
+for letter in text:
+    if letter.isalpha():
+        letters += 1   
+
+    elif letter in ".!?":
+        sentences += 1
+'''
+words = len(text.split())
+sentences = 0
+letters = 0
+for letter in text:
+    if letter.isalpha():
+        letters += 1   
+
+    elif letter in ".!?":
+        sentences += 1
+
 
 # display results    
     # TODO: Print the results
