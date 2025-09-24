@@ -32,7 +32,9 @@ How do we store our data?
 
 import json
 import os
-from datetime import datetime
+import csv
+from datetime import datetime 
+from decimal import Decimal, ROUND_HALF_UP
 
 CLIENTS_JSON_FILE = 'portfolio/clients.json'
 
@@ -41,7 +43,7 @@ def load_clients():
     """Load clients from JSON file or return empty list."""
     if os.path.exists(CLIENTS_JSON_FILE):
         try:
-            with open(CLIENTS_JSON_FILE, 'r') as file:
+            with open(CLIENTS_JSON_FILE, 'r') as file:                
                 return json.load(file)
         except json.JSONDecodeError:
             print('FATAL ERROR: Your clients.json file is corrupt 000')
@@ -65,18 +67,44 @@ def get_next_id(clients):
     """Get the next available client ID."""
     next_id = max((client["id"] for client in clients), default=0) + 1
 
-    next_id = max([client["id"] for client in clients], default=0) + 1
+    #next_id = max([client["id"] for client in clients], default=0) + 1
 
     next_id = 0
     for client in clients:
         if client['id'] > next_id: next_id = client['id']
     next_id += 1
 
+    return next_id
 
-def create_transaction(next_id, type, shares,symbol, name, price):
+
+def _update_position(client, transaction):
+    # helper function to only be used inside create_transaction
+
+    active_positions = client['positions']
+
+    if transaction['type'] == 'CONTRIBUTION':
+        if active_positions:
+            for position in active_positions:                
+                if position['symbol'] == transaction['symbol']:
+                    position['shares'] += transaction['shares']
+        else:
+            position = {'id': transaction['id'],            
+            'shares': round(transaction['shares'], 2),
+            'symbol': transaction['symbol'],
+            'name': transaction['name'],
+            'avg_cost': transaction['trn_price']}
+
+            active_positions.append(position)    # or client['positions].append(position)
+
+    return
+
+
+def create_transaction(next_id, type, shares,symbol, name, price, client):
+
+    
     """Create a cash contribution transaction."""
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    return {
+    transaction =  {
         'id': next_id,
         'timestamp': timestamp,
         'type': type,
@@ -86,6 +114,16 @@ def create_transaction(next_id, type, shares,symbol, name, price):
         'trn_price': round(price, 2)
     }
 
+    _update_position(client, transaction)
+
+    
+    client['transactions'].append(transaction)
+   
+
+    return 
+
+
+
 
 def input_client(clients):
     """Gather client input (name + cash) and add to clients list."""
@@ -93,19 +131,8 @@ def input_client(clients):
     lname = input('Please enter your last name: ')
 
     if not fname or not lname:
-        return None  # go back to menu
-
-    # --- cash input now handled here ---
-    txt = 'Please enter initial cash contribution: '
-    while True:
-        try:
-            cash = float(input(txt).replace("$", ''))
-        except ValueError:
-            txt = 'Please enter a number for cash: '
-        else:
-            if cash > 0:
-                break
-            txt = 'Please enter a positive number for cash: '
+        return None  # go back to menu    
+    
 
     next_id = get_next_id(clients)
 
@@ -114,13 +141,16 @@ def input_client(clients):
         'fname': fname,
         'lname': lname,
         'positions': [],
-        'transactions': [create_transaction(next_id, 'CONTRIBUTION', cash, '$$$$', 'Cash', 1.00)]
+        'transactions': []
     }
 
     clients.append(client)
-    save_clients(clients)
-    return client
+    contribution_input(client, clients)
 
+    return 
+   
+
+    
 def select_client(clients):
 
 
@@ -129,15 +159,17 @@ def select_client(clients):
         return None
 
     menu_items = []
-    for client in clients:
+    for client in clients:        
         name = client['fname'] + ' ' + client['lname']
         menu_items.append(name)
-        while True:
-            choice = display_menu(menu_items)
-            if choice == '':
-                return None                
-            else:
-                return choice
+       
+    while True:
+        choice = display_menu(menu_items)
+        if choice == None:                
+            return None                
+        else:
+            #what does choice contain here? what are we returning?                
+            return clients[choice - 1] 
 
 # ---------- Menu Handling ----------
 def display_menu(menu_items):
@@ -153,7 +185,7 @@ def display_menu(menu_items):
         try:
             item_no = int(item_no)
         except ValueError:
-            if item_no == '':                
+            if item_no == '':                               
                 return None
             txt = 'Please select an integer item (display_menu()): '
         else:
@@ -162,37 +194,172 @@ def display_menu(menu_items):
             else:
                 txt = f'Enter an integer between 1 and {len(menu_items)} (display_menu()): '
 
+def buy_input(active_client):
+    print('get some input from user')
+    print('if user finishes or enters "" return')
+
+def sell_input(active_client):
+    print('get some input from user')
+    print('if user finishes or enters "" return')
+
+def contribution_input(active_client, clients):
+
+    txt = 'How much cash would you like to contribute? '    
+    
+    while True:
+        shares = input(txt)
+        if shares == '': return
+
+        try:
+            shares = float(shares)
+        except ValueError:
+            txt = 'Please enter a dollar amount: '
+        else:
+            if shares <= 0:
+                txt = 'Please input a positive amount: '
+            else:
+                break
+      
+    
+    create_transaction(active_client['id'], 'CONTRIBUTION', shares, '$$$$', 'Cash', 1.00, active_client)    
+    save_clients(clients)
+    
+    return
+
+
+
+
+
+
+
+    print('get some input from user')
+    print('if user finishes or enters "" return')
+def withdrawal_input(active_client):
+    print('get some input from user')
+    print('if user finishes or enters "" return')
+
+def view_portfolio(active_client):
+    print('show portfolio')
+    print('when user enters "" return')
+def view_transactions(active_client):
+    print('show portfolio')
+    print('when user enters "" return')
+
+import csv
+from pprint import pprint
+def get_tickers():
+    tickers = {}
+
+    with open("portfolio/ticker.data", newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:            
+            ticker = row["Ticker"]
+            tickers[ticker] = {
+                "short_name": row["Short Name"],
+                "full_name": row["Full Corporate Name"]
+            }
+
+    pprint(tickers)
+    print(tickers['TSLA'])
+    print(tickers['TSLA']['short_name'])
+    return tickers
+
+#get_tickers()
+
+
 # ---------- Main Flow ----------
 def main():
     clients = load_clients()   
     
     while True:
-        menu_items = ('Create client', 'Select client')
-        choice = display_menu(menu_items)
+        s0_menu_items = ('Select client', 'Create client')
+        choice = display_menu(s0_menu_items)
 
         if choice == None:
-            print('exit system 00')
+            print('exit system s0')
             exit()
-        elif choice == 1:  # Create client
+        
+        elif choice == 1:            
+            while True:                
+                choice = select_client(clients)                       
+                if choice == None:
+                    print('return to previous menu s00 -> s0')
+                    break
+                else:
+                    active_client = choice
+                    while True:
+                        s1_menu_items =('Transactions', 'View Portfolio', 'View Transactions')
+                        choice = display_menu(s1_menu_items)
+                        if choice == None:
+                            print('return to previous menu s1 -> s00')
+                            break
+                        elif choice == 1:
+                            while True:
+                                s10_menu_items =('Buy', 'Sell', 'Contribution', 'Withdrawal')
+                                choice = display_menu(s10_menu_items)
+                                if choice == None:
+                                    print('return to previous menu s10 -> s1')
+                                    break
+                                elif choice == 1:
+                                    '''
+                                    get buy input, wait for return to break out of loop
+                                    '''   
+                                    buy_input(active_client) 
+                                    break                                
+                                elif choice == 2:
+                                    '''
+                                    get sell input, wait for return to break out of loop
+                                    '''
+                                    sell_input(active_client) 
+                                    break     
+                                elif choice == 3:
+                                    '''
+                                    get contribution input, wait for return to break out of loop
+                                    '''
+                                    contribution_input(active_client, clients) 
+                                    break     
+                                elif choice == 4:
+                                    '''
+                                    get withdrawal input, wait for return to break out of loop
+                                    '''
+                                    withdrawal_input(active_client) 
+                                    break     
+                                else:
+                                    print('FATAL ERROR: we should never get here s10 bad input')
+
+                            
+                        elif choice == 2:
+                            '''
+                            view portfolio
+                            wait for None return to break out of loop
+                            '''
+                            view_portfolio(active_client)
+                            break
+                        elif choice == 3:
+                            '''
+                            view transactions
+                            wait for None return  to break out of loop
+                            '''
+                            view_transactions()
+                            break
+                        else:
+                            print("FATAL ERROR: should never get here s1 bad input")
+
+                        
+                        
+
+        elif choice == 2:  # Create client
             while True:
                 choice = input_client(clients)
                 if choice == None:
-                    print('return to previous menu 1-00')
+                    print('return to previous menu s01 -> s0')
                     break
                 else:
                     new_client = choice
-                    print(f"Client {new_client['fname']} {new_client['lname']} created. 1-01")
-                    break  # break now out of top loop but go to sc 1 later
-        elif choice == 2:            
-            while True:
-                choice = select_client(clients)                
-                if choice == None:
-                    print('return to previous menu 2-00')
-                    break
-                else:
-                    print('go to s1 2-01')
-                    break  # break now out of top loop but go to sc 1 later
-
+                    print(f"Client {new_client['fname']} {new_client['lname']} created. s01 -> s0")
+                    break  # break out of loop  go to s0
+        else:
+            print("FATAL ERROR: should never get here s0 bad input")
         
 
 
