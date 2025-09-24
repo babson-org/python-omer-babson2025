@@ -1,6 +1,13 @@
 # ==============================
 # Main Program
 # ==============================
+'''
+Omer, nice job on the lab. Grade A-
+your computational thinking descriptions at the top of each function
+are weak.  They list what you do but don;t really explain your
+thinking.  See other notes below.
+'''
+
 def main():
     while True:
         print("Lab 1 - Python Basics")
@@ -203,6 +210,8 @@ def caesar_cipher():
 
 # loop until user enters text with at least one letter    
     # TODO: Get user input text
+
+'''
 while True:
         text = input("Enter some text: ")
         has_letter = False
@@ -215,14 +224,19 @@ while True:
         else:
             print("Follow directions, enter text:")
     # TODO: Get shift value
+'''
+text = input("Enter some text: ")
+
 while True:
         try:
+            # long input phrase
             shift = int(input("Please enter an integer shift, an integer shift is you shift each letter forward by the number specified by the shift integer: "))
             break
         except ValueError:
             print("Follow directions and enter a number!")
     # TODO: Ask user whether to encrypt or decrypt
 while True:
+        #long input phrase
         choice = input("Type 'e' to encrypt or 'd' to decrypt, to encrypt a message, you shift each letter forward by the number specified by the shift integer, and decrypt is the backward shift : ").lower()
         if choice in ("e", "d"):
             break
