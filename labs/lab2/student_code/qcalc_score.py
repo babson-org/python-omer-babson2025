@@ -9,6 +9,17 @@ def calc_score(board: list[int]):
         else return 0
     """
      
+    '''
+    0 1 2
+    3 4 5
+    6 7 8
+
+    if abs(board[0] + board[1] + board[2]) == 10: return board[0] + board[1] + board[2]
+    elif board[3] + board[4] + board[5]... #tum kazanma kombinasyonlari
+
+    else: return 0 
+
+        
     def line_sum(a, b, c):
         '''
             line_sum takes 3 numbers and if the sum is either 30
@@ -18,9 +29,8 @@ def calc_score(board: list[int]):
         # TODO: Sum the values at board[a], board[b], board[c] 
         # TODO: Return 30 if X wins, -30 if O wins otherwise do not return
         pass
-     
-    # TODO: For each of the 8 ways to win
-    # TODO: Check the cells in each row, column, or diagonal using line_sum
+# TODO: For each of the 8 ways to win
+# TODO: Check the cells in each row, column, or diagonal using line_sum
     # TODO: Return 0 if line_sum() didn't return 30 or -30
     pass
 
