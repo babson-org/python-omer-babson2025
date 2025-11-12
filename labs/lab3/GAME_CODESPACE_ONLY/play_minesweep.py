@@ -64,7 +64,11 @@ def main():
 
     while True:
         print_display(display, flagged)
-        raw = input("Pick a cell to reveal. Type the 'row column as 'r c'. (To understand the game you can 'debug' to see the base board or 'quit' to end the game): ").strip().lower()
+        raw = input(
+    "Your move → type row col (e.g., 2 3). "
+    "Type 'debug' to peek or 'quit' to exit: "
+).strip().lower()
+
 
         if raw in {"quit"}:
             print("bye!")
