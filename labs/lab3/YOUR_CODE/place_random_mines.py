@@ -1,7 +1,7 @@
 import random
 import globals  
 
-# --- compatibility aliases ---
+
 try:
     MINE = globals.MINE        
 except AttributeError:
@@ -18,6 +18,7 @@ def place_random_mines(board, num_mines: int):
 
 # --- self-test ---
 if __name__ == "__main__":
+
     import os, sys
     THIS_DIR = os.path.dirname(__file__)
     LAB_DIR = os.path.dirname(THIS_DIR)         

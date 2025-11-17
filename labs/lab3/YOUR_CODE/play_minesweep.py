@@ -23,7 +23,7 @@ HIDDEN = getattr(globals, "HIDDEN", "♦")
 BOOM   = getattr(globals, "BOOM", "*")
 FLAG   = getattr(globals, "FLAG", "⚑")  
 
-def print_display(board, flagged: set[tuple[int,int]]):
+def print_board(board, flagged: set[tuple[int,int]]):
     rows, cols = len(board), len(board[0])
     print("\n    " + " ".join(f"{c:>2}" for c in range(cols)))
     print("   +" + "---" * cols + "+")
@@ -63,7 +63,7 @@ def main():
     flagged: set[tuple[int,int]] = set() 
 
     while True:
-        print_display(display, flagged)
+        print_board(display, flagged)
         raw = input(
     "Your move → type row col (e.g., 2 3). "
     "Type 'debug' to peek or 'quit' to exit: "
@@ -111,11 +111,11 @@ def main():
                 for cc in range(cols):
                     if base[rr][cc] == MINE:
                         display[rr][cc] = BOOM
-            print_display(display, flagged)
+            print_board(display, flagged)
             print("💥 Boom!")
             break
         if game_won(base, display):
-            print_display(display, flagged)
+            print_board(display, flagged)
             print("🎉 You win!")
             break
 

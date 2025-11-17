@@ -30,8 +30,8 @@ def update_board(base_board, display_board, r: int, c: int):
         return "mine"
 
     def reveal(rr, cc):
-        val = base_board[rr][cc]
-        display_board[rr][cc] = " " if val == 0 else str(val)
+    val = base_board[rr][cc]
+    display_board[rr][cc] = " " if val == 0 else str(val)
 
     # single number
     if base_board[r][c] > 0:
