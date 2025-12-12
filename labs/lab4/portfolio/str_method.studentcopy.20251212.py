@@ -4,4 +4,5 @@ def portfolio_str(self):
     Example (format is flexible):
         "Bob has 2 positions and $1,234.56"
     """
-    return f"COMPLETE THIS LINE"
+    return f"{self.name} has {len(self.positions)} positions and ${self.cash:,.2f}"
+
